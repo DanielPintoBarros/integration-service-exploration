@@ -1,4 +1,6 @@
 export interface IntegrationAction {
-  actionName: string;
+  name: string;
+  label: string;
+  description: string;
   execute(payload: any): Promise<any>;
 }

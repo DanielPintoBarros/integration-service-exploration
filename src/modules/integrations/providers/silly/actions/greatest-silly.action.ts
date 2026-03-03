@@ -2,10 +2,12 @@ import { IntegrationAction } from '@modules/integrations/core/domain/contracts/i
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class BobaoAction implements IntegrationAction {
-  actionName = 'bobao';
+export class GreatestSillyAction implements IntegrationAction {
+  name = 'greatest-silly';
+  label = 'Greatest Silly';
+  description = 'Returns a fun message';
 
   async execute(): Promise<any> {
-    return `Bobão!`;
+    return `You are the greatest silly person!`;
   }
 }

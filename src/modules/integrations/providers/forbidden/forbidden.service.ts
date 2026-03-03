@@ -3,11 +3,11 @@ import { Integration } from '@modules/integrations/core/infra/integration.decora
 import { Injectable } from '@nestjs/common';
 import { BaseIntegrationService } from '@modules/integrations/core/domain/base-integration.service';
 
-const SERVICE_NAME = 'proibido';
+const SERVICE_NAME = 'forbidden';
 
 @Injectable()
 @Integration(SERVICE_NAME)
-export class ProibidoService extends BaseIntegrationService {
+export class ForbiddenService extends BaseIntegrationService {
   serviceName = SERVICE_NAME;
 
   constructor(actions: IntegrationAction[]) {

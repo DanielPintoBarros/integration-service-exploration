@@ -1,8 +1,7 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { IntegrationService } from '@modules/integrations/core/domain/contracts/integration-service.interface';
-import { IntegrationError } from '@modules/integrations/core/domain/errors/integration-error';
 import { DiscoveryService, Reflector } from '@nestjs/core';
-import { INTEGRATION_METADATA } from '@modules/integrations/core/infra/integration.decorator';
+import { INTEGRATION_SERVICE_METADATA } from '@modules/integrations/core/infra/integration.decorator';
 
 @Injectable()
 export class IntegrationRegistry implements OnModuleInit {
@@ -22,18 +21,18 @@ export class IntegrationRegistry implements OnModuleInit {
       if (!instance) continue;
 
       const metadata = this.reflector.get<string>(
-        INTEGRATION_METADATA,
+        INTEGRATION_SERVICE_METADATA,
         instance.constructor,
       );
 
       if (!metadata) continue;
 
-      this.register(instance);
+      this.register(metadata, instance);
     }
   }
 
-  register(service: IntegrationService) {
-    this.services.set(service.serviceName, service);
+  register(serviceName: string, service: IntegrationService) {
+    this.services.set(serviceName, service);
   }
 
   has(serviceName: string): boolean {
@@ -41,12 +40,14 @@ export class IntegrationRegistry implements OnModuleInit {
   }
 
   get(serviceName: string): IntegrationService {
-    const service = this.services.get(serviceName);
-
-    if (!service) {
-      throw new IntegrationError(`Integration ${serviceName} not registered`);
+    if (!this.services.has(serviceName)) {
+      throw new NotFoundException(`Integration ${serviceName} not registered`);
     }
-
+    const service = this.services.get(serviceName) as IntegrationService;
     return service;
+  }
+
+  getAll(): IntegrationService[] {
+    return Array.from(this.services.values());
   }
 }

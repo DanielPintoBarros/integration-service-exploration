@@ -1,1 +1,1 @@
-Dependency Injection Case Study for the Identified Scenario
+Dependency Injection Case Study for an Identified Scenario

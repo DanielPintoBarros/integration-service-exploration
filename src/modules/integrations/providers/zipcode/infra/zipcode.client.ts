@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import axios, { AxiosInstance } from 'axios';
 
 @Injectable()
-export class CepClient {
+export class ZipcodeClient {
   private api: AxiosInstance;
 
   constructor() {
@@ -12,8 +12,8 @@ export class CepClient {
     });
   }
 
-  async getAddressByCep(cep: string): Promise<any> {
-    const response = await this.api.get(`${cep}/json/`);
+  async getAddressByZipcode(zipcode: string): Promise<any> {
+    const response = await this.api.get(`${zipcode}/json/`);
     return response.data;
   }
 }

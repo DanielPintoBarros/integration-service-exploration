@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { IntegrationRegistry } from '@modules/integrations/core/application/registry/integration.registry';
 
 interface ExecuteIntegrationInput {
@@ -13,7 +13,9 @@ export class ExecuteIntegrationUseCase {
 
   async execute(input: ExecuteIntegrationInput) {
     if (!this.registry.has(input.serviceName)) {
-      return `Integration service '${input.serviceName}' not found`;
+      throw new NotFoundException(
+        `Integration service '${input.serviceName}' not found`,
+      );
     }
 
     const service = this.registry.get(input.serviceName);

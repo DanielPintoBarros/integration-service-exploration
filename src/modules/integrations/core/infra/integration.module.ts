@@ -2,21 +2,19 @@ import { Module } from '@nestjs/common';
 import { IntegrationRegistry } from '@modules/integrations/core/application/registry/integration.registry';
 import { IntegrationController } from '@modules/integrations/controllers/integration.controller';
 import { DiscoveryModule } from '@nestjs/core';
-import { ExecuteIntegrationUseCase } from '../application/usecases/execute-integration.usecase';
-import { BoboModule } from '@modules/integrations/providers/bobo/infra/bobo.module';
-import { CalvoModule } from '@modules/integrations/providers/calvo/infra/calvo.module';
-import { CepModule } from '@modules/integrations/providers/cep/infra/cep.module';
-import { ProibidoModule } from '@modules/integrations/providers/proibido/infra/proibido.module';
+import { ExecuteIntegrationUseCase } from '@modules/integrations/core/application/usecases/execute-integration.usecase';
+import { SillyModule } from '@modules/integrations/providers/silly/silly.module';
+import { ZipcodeModule } from '@modules/integrations/providers/zipcode/zipcode.module';
+import { ForbiddenModule } from '@modules/integrations/providers/forbidden/forbidden.module';
+import { IntegrationsInfoUseCase } from '@modules/integrations/core/application/usecases/integrations-info.usecase';
 
 @Module({
-  imports: [
-    DiscoveryModule,
-    BoboModule,
-    CalvoModule,
-    CepModule,
-    ProibidoModule,
+  imports: [DiscoveryModule, SillyModule, ZipcodeModule, ForbiddenModule],
+  providers: [
+    IntegrationRegistry,
+    ExecuteIntegrationUseCase,
+    IntegrationsInfoUseCase,
   ],
-  providers: [IntegrationRegistry, ExecuteIntegrationUseCase],
   exports: [IntegrationRegistry],
   controllers: [IntegrationController],
 })
